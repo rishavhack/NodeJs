@@ -16,11 +16,11 @@ app.use('/api',appRoutes);
 mongoose.connect('mongodb://localhost:27017/tutorial',function(err){
 	if(err)
 	{
-		console.log('Not Connected'+err)
+		console.log('Not Connected'+err);
 	}
 	else
 	{
-		console.log('Success')
+		console.log('Success');
 	}
 });
 
