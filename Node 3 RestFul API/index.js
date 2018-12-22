@@ -25,7 +25,11 @@ app.get('/api/cou/:id',(req,res)=>{
 });
 app.get('/api/courses/:id',(req,res)=>{
 	const course = courses.find(c=> c.id === parseInt(req.params.id));
-	if(!course) res.status(404).send('The course not found')
+	if(!course) 
+		{
+			res.status(404).send('The course not found')
+			return
+		}
 	res.send(course);
 });
 
@@ -63,7 +67,49 @@ if(result.error){
 	res.send(cours);
 });
 
+app.put('/api/courses/:id',(req,res)=>{
+	//Look up the course
+	// if not exixting,return 404
+	const course = courses.find(c=> c.id === parseInt(req.params.id));
+	if(!course) {
+		res.status(404).send('The course not found')
+		return;
+	}
+	
+	//Validate
+const result = validateCourse(req.body);
+// const { error } = validateCourse(req.body);
+	console.log(result);
+	if(result.error){
+		res.status(400).send(result.error);
+		return;
+	}
+	//Update Course
+	course.name = req.body.name;
+	res.send(course);
 
+});
+
+app.delete('/api/courses/:id',(req,res)=>{
+	const course = courses.find(c=> c.id === parseInt(req.params.id));
+	if(!course) {
+		res.status(404).send('The course not found')
+		return
+	}
+	
+	const index = courses.indexOf(course)
+	courses.splice(index,1);
+
+	res.send(courses)
+
+});
+
+function validateCourse(course){
+	const schema = {
+		name : Joi.string().min(3).required()
+	}
+	return Joi.validate(course,schema);
+}
 //app.get('/api/post/:year/:month',(req,res)=>{
 //	res.send(req.query)
 //});
