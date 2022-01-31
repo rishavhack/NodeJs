@@ -1,7 +1,0 @@
-npm init
-npm install express --save
-npm install -g nodemon //NO need restart server again & again
->>nodemon appname.js
-npm install morgan --save
-npm install body-parser --save
-c
